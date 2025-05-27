@@ -1,6 +1,6 @@
 import { Button } from "../ui/Button"
 import style from "./product-card.module.scss"
-import { PlusCircleFilled } from '@ant-design/icons'
+import { CloseOutlined, PlusCircleFilled } from '@ant-design/icons'
 
 interface ProductCardProps {
     id: string
@@ -8,13 +8,15 @@ interface ProductCardProps {
     description: string
     price: number
     imageUrl: string
+    isInCart?: boolean
 }
 
 export function ProductCard({
     title,
     description,
     price,
-    imageUrl
+    imageUrl,
+    isInCart
 
 }: ProductCardProps) {
     return (
@@ -32,9 +34,19 @@ export function ProductCard({
                     <span className={style.price}>R${price}</span>
                 </div>
 
-                <Button variant="primary">
-                    <PlusCircleFilled />
-                    Adicionar ao Carrinho
+                <Button variant={ isInCart ? 'danger' : 'primary' }>
+                    {isInCart ?
+
+                        <>
+                            <CloseOutlined/>
+                            Remover do carrinho
+                        </>
+                         : 
+                         <>
+                            <PlusCircleFilled/>
+                            Adicionar ao carrinho
+                         </>
+                    }
                 </Button>
             </div>
         </div>
