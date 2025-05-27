@@ -1,3 +1,127 @@
 .container {
-    
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 32px 16px;
+
+    h1 {
+        color: var(--title);
+        margin-bottom: 32px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+
+    @media(max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: var(--white);
+    padding: 16px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.cartItem {
+    display: flex;
+    align-items: flex-start;
+}
+
+.productInfo {
+    display: flex;
+    gap: 16px;
+    text-decoration: none;
+
+    img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    div {
+        h3 {
+            color: var(--title);
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+    }
+}
+
+.price {
+    display: block;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.removeButton {
+    background-color: transparent;
+    border: 0;
+    color: var(--red-500);
+    cursor: pointer;
+    padding: 8px;
+    transition: filter 0.2s;
+
+    &:hover {
+        filter: brightness(0.8);
+    }
+}
+
+.summary {
+    background: var(--white);
+    padding: 24px;
+    border-radius: 8px;
+    position: sticky;
+    top: 32px;
+
+    h2 {
+        color: var(--title);
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+}
+
+.summaryContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    a {
+        width: 100%;
+    }
+}
+
+.summaryItem {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    color: var(--title);
+    border-top: 1px solid var(--gray-100);
+    font-size: 18px;
+    padding-top: 16px;
+    margin: 16px 0;
 }
