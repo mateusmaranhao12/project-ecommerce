@@ -1,3 +1,5 @@
+import React from "react"
+import { useGlobalContext } from "../../context/global"
 import { Button } from "../ui/Button"
 import style from "./product-card.module.scss"
 import { CloseOutlined, PlusCircleFilled } from '@ant-design/icons'
@@ -12,6 +14,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({
+    id,
     title,
     description,
     price,
@@ -19,6 +22,19 @@ export function ProductCard({
     isInCart
 
 }: ProductCardProps) {
+
+    const {addToCart, removeFromCart} = useGlobalContext()
+
+    function handleCartAction(event: React.MouseEvent) {
+        event?.stopPropagation()
+
+        if(isInCart){
+            removeFromCart(id)
+            return
+        }
+        addToCart(id)
+    }
+
     return (
         <div className={style.productCard}>
             <img
@@ -34,7 +50,7 @@ export function ProductCard({
                     <span className={style.price}>R${price}</span>
                 </div>
 
-                <Button variant={ isInCart ? 'danger' : 'primary' }>
+                <Button onClick={handleCartAction} variant={ isInCart ? 'danger' : 'primary' }>
                     {isInCart ?
 
                         <>

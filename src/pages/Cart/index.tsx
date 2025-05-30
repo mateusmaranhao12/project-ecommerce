@@ -2,10 +2,18 @@ import { Link } from "react-router-dom"
 import { Button } from "../../components/ui/Button"
 import style from "./cart.module.scss"
 import { CloseCircleOutlined } from "@ant-design/icons"
+import { useGlobalContext } from "../../context/global"
+import useFormatter from "../../hooks/utils/use-formatter"
 
 function Cart() {
 
-    const emptyCart = false
+    const { cart, removeFromCart } = useGlobalContext()
+    const { formatMoney } = useFormatter()
+
+    const total = cart.reduce((acc, item) => acc + item.price, 0)
+    const formattedTotal = formatMoney(total)
+
+    const emptyCart = Boolean(!cart.length)
 
     return (
         <div className={style.container}>
@@ -22,66 +30,28 @@ function Cart() {
                 :
                 <div className={style.content}>
                     <div className={style.cartItems}>
-                        <div className={style.cartItem}>
-                            <Link to="product/1" className={style.productInfo}>
-                                <img
-                                    src="https://midias.correiobraziliense.com.br/_midias/jpg/2022/12/18/675x450/1_000_334p8ak-27076446.jpg?20221218154146?20221218154146"
-                                    alt="product"
-                                />
+                        {cart.map((product) => (
+                            <div className={style.cartItem}>
+                                <Link to={`/product/${product.id}`} className={style.productInfo}>
+                                    <img
+                                        src={product.imageUrl}
+                                        alt={product.title}
+                                    />
 
-                                <div>
-                                    <h3>Titulo do produto</h3>
-                                    <p>Descrição do produto</p>
-                                    <span className={style.price}>
-                                        60,00
-                                    </span>
-                                </div>
-                            </Link>
+                                    <div>
+                                        <h3>{product.title}</h3>
+                                        <p>{product.description}</p>
+                                        <span className={style.price}>
+                                            {formatMoney(product.price)}
+                                        </span>
+                                    </div>
+                                </Link>
 
-                            <button className={style.removeButton}>
-                                <CloseCircleOutlined />
-                            </button>
-                        </div>
-                        <div className={style.cartItem}>
-                            <Link to="product/1" className={style.productInfo}>
-                                <img
-                                    src="https://midias.correiobraziliense.com.br/_midias/jpg/2022/12/18/675x450/1_000_334p8ak-27076446.jpg?20221218154146?20221218154146"
-                                    alt="product"
-                                />
-
-                                <div>
-                                    <h3>Titulo do produto</h3>
-                                    <p>Descrição do produto</p>
-                                    <span className={style.price}>
-                                        60,00
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <button className={style.removeButton}>
-                                <CloseCircleOutlined />
-                            </button>
-                        </div>
-                        <div className={style.cartItem}>
-                            <Link to="product/1" className={style.productInfo}>
-                                <img
-                                    src="https://midias.correiobraziliense.com.br/_midias/jpg/2022/12/18/675x450/1_000_334p8ak-27076446.jpg?20221218154146?20221218154146"
-                                    alt="product"
-                                />
-
-                                <div>
-                                    <h3>Titulo do produto</h3>
-                                    <p>Descrição do produto</p>
-                                    <span className={style.price}>
-                                        60,00
-                                    </span>
-                                </div>
-                            </Link>
-
-                            <button className={style.removeButton}>
-                                <CloseCircleOutlined />
-                            </button>
-                        </div>
+                                <button className={style.removeButton} onClick={() => removeFromCart(product.id)}>
+                                    <CloseCircleOutlined />
+                                </button>
+                            </div>
+                        ))}
                     </div>
 
                     <div className={style.summary}>
@@ -90,7 +60,7 @@ function Cart() {
                         <div className={style.summaryContent}>
                             <div className={style.summaryItem}>
                                 <span>Subtotal</span>
-                                <span>100,00</span>
+                                <span>{formattedTotal}</span>
                             </div>
                             <div className={style.summaryItem}>
                                 <span>Frete</span>
@@ -98,7 +68,7 @@ function Cart() {
                             </div>
                             <div className={style.summaryTotal}>
                                 <span>Total</span>
-                                <span>100,00</span>
+                                <span>{formattedTotal}</span>
                             </div>
 
                             <Button>Finalizar pedido</Button>
