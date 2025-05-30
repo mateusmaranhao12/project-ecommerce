@@ -2,8 +2,17 @@ import { CheckSquareOutlined, HomeOutlined } from "@ant-design/icons"
 import style from "./success.module.scss"
 import { Link } from "react-router-dom"
 import { Button } from "../../components/ui/Button"
+import { useGlobalContext } from "../../context/global"
+import useFormatter from "../../hooks/utils/use-formatter"
 
 function Success() {
+
+    const { saleResume } = useGlobalContext()
+    const { formatMoney } = useFormatter()
+
+    const total = saleResume?.products.reduce((acc, item) => acc + item.price, 0) ?? 0
+    const formattedTotal = formatMoney(total)
+
     return (
         <div className={style.container}>
             <div className={style.content}>
@@ -14,23 +23,26 @@ function Success() {
                 <div className={style.orderInfo}>
                     <h2>Resumo do Pedido</h2>
                     <div className={style.items}>
-                        <div className={style.item}>
-                            <img
-                                src="https://conteudo.imguol.com.br/c/esporte/8f/2022/10/26/neymar-em-acao-com-a-camisa-da-selecao-do-brasil-1666821905607_v2_450x600.jpg"
-                                alt="produto"
-                            />
-                            <div>
-                                <div className={style.itemInfo}>
-                                    <h3>Título</h3>
-                                    <span>R$80,00</span>
+                        {saleResume?.products.map((product) => (
+                            <div className={style.item} key={product.id}>
+                                <img
+                                    src={product.imageUrl}
+                                    alt={product.title}
+                                    loading="lazy"
+                                />
+                                <div>
+                                    <div className={style.itemInfo}>
+                                        <h3>{product.title}</h3>
+                                        <span>{formatMoney(product.price)}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
 
                     <div className={style.total}>
                         <strong>Total:</strong>
-                        <strong>R$100,00</strong>
+                        <strong>{formattedTotal}</strong>
                     </div>
                 </div>
 

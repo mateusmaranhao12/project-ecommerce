@@ -7,7 +7,7 @@ import useFormatter from "../../hooks/utils/use-formatter"
 
 function Cart() {
 
-    const { cart, removeFromCart } = useGlobalContext()
+    const { cart, removeFromCart, addCheckout } = useGlobalContext()
     const { formatMoney } = useFormatter()
 
     const total = cart.reduce((acc, item) => acc + item.price, 0)
@@ -36,6 +36,7 @@ function Cart() {
                                     <img
                                         src={product.imageUrl}
                                         alt={product.title}
+                                        loading="lazy"
                                     />
 
                                     <div>
@@ -71,7 +72,7 @@ function Cart() {
                                 <span>{formattedTotal}</span>
                             </div>
 
-                            <Button>Finalizar pedido</Button>
+                            <Button onClick={() => addCheckout()}>Finalizar pedido</Button>
 
                             <Link to="/">
                                 <Button variant="secondary" fullWidth>Continuar comprando</Button>

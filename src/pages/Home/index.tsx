@@ -4,7 +4,7 @@ import style from "./home.module.scss"
 
 function Home() {
 
-    const {productList} = useGlobalContext()
+    const { productList } = useGlobalContext()
 
     return (
         <div className={style.container}>
@@ -18,6 +18,7 @@ function Home() {
                 {productList?.map((product) => (
 
                     <ProductCard
+                        key={product.id}
                         title={product.title}
                         description={product.description}
                         price={product.price}

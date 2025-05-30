@@ -3,6 +3,8 @@ import { useGlobalContext } from "../../context/global"
 import { Button } from "../ui/Button"
 import style from "./product-card.module.scss"
 import { CloseOutlined, PlusCircleFilled } from '@ant-design/icons'
+import useFormatter from "../../hooks/utils/use-formatter"
+import { useNavigate } from "react-router-dom"
 
 interface ProductCardProps {
     id: string
@@ -24,6 +26,8 @@ export function ProductCard({
 }: ProductCardProps) {
 
     const {addToCart, removeFromCart} = useGlobalContext()
+    const {formatMoney} = useFormatter()
+    const navigate = useNavigate()
 
     function handleCartAction(event: React.MouseEvent) {
         event?.stopPropagation()
@@ -36,18 +40,22 @@ export function ProductCard({
     }
 
     return (
-        <div className={style.productCard}>
+        <div 
+            className={style.productCard}
+            onClick={() => navigate(`/product/${id}`)}
+        >
             <img
                 src={imageUrl}
                 alt={title}
                 className={style.productImage}
+                loading="lazy"
             />
 
             <div className={style.productInfo}>
                 <div className={style.content}>
                     <h3>{title}</h3>
                     <p>{description}</p>
-                    <span className={style.price}>R${price}</span>
+                    <span className={style.price}>{formatMoney(price)}</span>
                 </div>
 
                 <Button onClick={handleCartAction} variant={ isInCart ? 'danger' : 'primary' }>

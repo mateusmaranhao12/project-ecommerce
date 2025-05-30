@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import style from "./header.module.scss"
 import { ShoppingCartOutlined } from "@ant-design/icons"
+import { useGlobalContext } from "../../context/global"
 
 function Header() {
+
+    const { cart } = useGlobalContext()
 
     return (
         <header className={style.container}>
@@ -17,9 +20,11 @@ function Header() {
                     <div className={style.cartIconContainer}>
                         <ShoppingCartOutlined />
 
-                        <span className={style.cartBadge}>
-                            1
-                        </span>
+                        {cart.length > 0 && (
+                            <span className={style.cartBadge}>
+                                {cart.length}
+                            </span>
+                        )}
                     </div>
                 </Link>
             </nav>
